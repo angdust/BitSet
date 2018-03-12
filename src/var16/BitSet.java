@@ -5,23 +5,24 @@ import java.util.List;
 import java.util.Vector;
 
 public class BitSet {
-    private final Vector<Boolean> set;
+    private final Vector<Boolean> val;
 
     /**
      * class constructor
      *
-     * @param size to create a class
+     * @param size
      */
 
     public BitSet(int size) {
-        this.set = new Vector<>(size);
-        for (int i = 0; i < size; i++) this.set.set(i, false);
+        this.val = new Vector<>(size);
+        for (int i = 0; i < size; i++)
+            this.val.add(false);
     }
 
     /**
      * class constructor
      *
-     * @param value set of elements
+     * @param value val of elements
      */
 
     public BitSet(Boolean... value) {
@@ -29,7 +30,7 @@ public class BitSet {
         for (Boolean i : value) {
             result.add(i);
         }
-        this.set = result;
+        this.val = result;
     }
 
     /**
@@ -40,8 +41,8 @@ public class BitSet {
      */
 
     public boolean add(int index) {
-        if (!set.get(index)) {
-            set.set(index, true);
+        if (!val.get(index)) {
+            val.set(index, true);
             return true;
         }
         return false;
@@ -55,8 +56,8 @@ public class BitSet {
      */
 
     public boolean del(int index) {
-        if (set.get(index)) {
-            set.set(index, false);
+        if (val.get(index)) {
+            val.set(index, false);
             return true;
         }
         return false;
@@ -68,28 +69,29 @@ public class BitSet {
      */
 
     public boolean contains(int index) {
-        return set.get(index);
+        return val.get(index);
     }
 
     /**
      * intersection of two sets
-     * @param other set of elements
+     *
+     * @param other val of elements
      * @return a result
      */
 
     public BitSet intersection(BitSet other) {
         int hsize;
         int lsize;
-        if (set.size() >= other.set.size()) {
-            hsize = set.size();
-            lsize = other.set.size();
+        if (val.size() >= other.val.size()) {
+            hsize = val.size();
+            lsize = other.val.size();
         } else {
-            hsize = other.set.size();
-            lsize = set.size();
+            hsize = other.val.size();
+            lsize = val.size();
         }
         BitSet result = new BitSet(hsize);
         for (int i = 0; i < lsize; i++) {
-            if (set.get(i) && other.set.get(i)) {
+            if (val.get(i) && other.val.get(i)) {
                 result.add(i);
             }
         }
@@ -98,38 +100,39 @@ public class BitSet {
 
     /**
      * union of two sets
-     * @param other set of elements
+     *
+     * @param other val of elements
      * @return a result
      */
 
     public BitSet union(BitSet other) {
-        if (set.size() >= other.set.size()) {
-            BitSet result = new BitSet(set.size());
-            result.addAll(0, set);
-            for (int i = 0; i < other.set.size(); i++) {
-                if (other.set.get(i)) result.add(i);
+        if (val.size() >= other.val.size()) {
+            BitSet result = new BitSet(val.size());
+            result.addAll(0, val);
+            for (int i = 0; i < other.val.size(); i++) {
+                if (other.val.get(i)) result.add(i);
             }
             return result;
         } else {
-            BitSet result = new BitSet(other.set.size());
-            result.addAll(0, other.set);
-            for (int i = 0; i < set.size(); i++) {
-                if (set.get(i)) result.add(i);
+            BitSet result = new BitSet(other.val.size());
+            result.addAll(0, other.val);
+            for (int i = 0; i < val.size(); i++) {
+                if (val.get(i)) result.add(i);
             }
             return result;
         }
     }
 
     /**
-     * complements the set
+     * complements the val
      *
      * @return a result
      */
 
     public BitSet complement() {
-        BitSet result = new BitSet(set.size());
-        for (int i = 0; i < set.size(); i++) {
-            if (set.get(i)) {
+        BitSet result = new BitSet(val.size());
+        for (int i = 0; i < val.size(); i++) {
+            if (val.get(i)) {
                 result.del(i);
             } else {
                 result.add(i);
@@ -142,17 +145,17 @@ public class BitSet {
      * changes the value from the list of elements at a given index
      *
      * @param index indicates from which element start to switch
-     * @param array set of elements
+     * @param array val of elements
      * @return a result
      */
 
     public BitSet addAll(int index, List<Boolean> array) {
-        if (index + array.size() > set.size()) {
+        if (index + array.size() > val.size()) {
             throw new IllegalArgumentException("Invalid size");
         }
-        BitSet result = new BitSet(set.size());
-        for (int i = 0; i < set.size(); i++) {
-            if (set.get(i)) result.add(i);
+        BitSet result = new BitSet(val.size());
+        for (int i = 0; i < val.size(); i++) {
+            if (val.get(i)) result.add(i);
         }
         for (int j = index; j < array.size() + index; j++) {
             if (array.get(j - index)) result.add(j);
@@ -164,21 +167,36 @@ public class BitSet {
      * changes the value from the list of elements at a given index
      *
      * @param index indicates from which element start to switch
-     * @param array set of elements
+     * @param array val of elements
      * @return a result
      */
 
     public BitSet delAll(int index, List<Boolean> array) {
-        if (index + array.size() > set.size()) {
+        if (index + array.size() > val.size()) {
             throw new IllegalArgumentException("Invalid size");
         }
-        BitSet result = new BitSet(set.size());
-        for (int i = 0; i < set.size(); i++) {
-            if (set.get(i)) result.add(i);
+        BitSet result = new BitSet(val.size());
+        for (int i = 0; i < val.size(); i++) {
+            if (val.get(i)) result.add(i);
         }
         for (int j = index; j < array.size() + index; j++) {
             if (array.get(j - index)) result.del(j);
         }
         return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof BitSet) {
+            BitSet other = (BitSet) o;
+
+            return this.val.equals(other.val);
+        }
+
+        BitSet bitSet = (BitSet) o;
+
+        return val != null ? val.equals(bitSet.val) : bitSet.val == null;
+    }
+
 }

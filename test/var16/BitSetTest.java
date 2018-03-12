@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class BitSetTest {
     @Test
@@ -13,14 +14,15 @@ class BitSetTest {
         BitSet x = new BitSet(false, false, false);
         x.add(2);
         assertEquals(x.contains(2), true);
+        assertFalse(x.add(2));
     }
 
     @Test
     void del() {
         BitSet x = new BitSet(false, true, true);
         x.del(2);
-        assertEquals(x.contains(2), false);
         x.del(1);
+        assertEquals(x.contains(2), false);
         assertEquals(x.contains(1), false);
     }
 
@@ -55,8 +57,7 @@ class BitSetTest {
         value.add(true);
         value.add(false);
         value.add(true);
-        x.addAll(1, value);
-        assertEquals(x.contains(1), true);
+        assertEquals(x.addAll(1, value), new BitSet(true, true, true, true, true));
     }
 
     @Test
@@ -66,8 +67,7 @@ class BitSetTest {
         value.add(false);
         value.add(true);
         value.add(true);
-        x.addAll(1, value);
-        assertEquals(x.contains(2), false);
+        assertEquals(x.delAll(1, value), new BitSet(true, false, false, false, true));
     }
 
 }
