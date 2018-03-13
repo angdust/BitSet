@@ -58,6 +58,11 @@ class BitSetTest {
         value.add(false);
         value.add(true);
         assertEquals(x.addAll(1, value), new BitSet(true, true, true, true, true));
+        try {
+            x.addAll(3, value);
+        } catch (IllegalArgumentException exception) {
+            assertEquals("Invalid size", exception.getMessage());
+        }
     }
 
     @Test
@@ -68,6 +73,11 @@ class BitSetTest {
         value.add(true);
         value.add(true);
         assertEquals(x.delAll(1, value), new BitSet(true, false, false, false, true));
+        try {
+            x.addAll(3, value);
+        } catch (IllegalArgumentException exception) {
+            assertEquals("Invalid size", exception.getMessage());
+        }
     }
 
 }
