@@ -15,8 +15,9 @@ public class BitSet {
 
     public BitSet(int size) {
         this.val = new Vector<>(size);
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             this.val.add(false);
+        }
     }
 
     /**
@@ -187,15 +188,14 @@ public class BitSet {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         if (o instanceof BitSet) {
             BitSet other = (BitSet) o;
-
             return this.val.equals(other.val);
         }
-
         BitSet bitSet = (BitSet) o;
-
         return val != null ? val.equals(bitSet.val) : bitSet.val == null;
     }
 
