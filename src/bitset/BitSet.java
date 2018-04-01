@@ -1,11 +1,11 @@
-package var16;
+package bitset;
 
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class BitSet {
-    private final Vector<Boolean> val;
+    private final ArrayList<Integer> val;
 
     /**
      * class constructor
@@ -14,9 +14,9 @@ public class BitSet {
      */
 
     public BitSet(int size) {
-        this.val = new Vector<>(size);
+        this.val = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            this.val.add(false);
+            this.val.add(0);
         }
     }
 
@@ -26,9 +26,9 @@ public class BitSet {
      * @param value val of elements
      */
 
-    public BitSet(Boolean... value) {
-        Vector<Boolean> result = new Vector<>();
-        for (Boolean i : value) {
+    public BitSet(int... value) {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i : value) {
             result.add(i);
         }
         this.val = result;
@@ -42,8 +42,8 @@ public class BitSet {
      */
 
     public boolean add(int index) {
-        if (!val.get(index)) {
-            val.set(index, true);
+        if (val.get(index) != 1) {
+            val.set(index, 1);
             return true;
         }
         return false;
@@ -57,8 +57,8 @@ public class BitSet {
      */
 
     public boolean del(int index) {
-        if (val.get(index)) {
-            val.set(index, false);
+        if (val.get(index) == 1) {
+            val.set(index, 0);
             return true;
         }
         return false;
@@ -70,7 +70,7 @@ public class BitSet {
      */
 
     public boolean contains(int index) {
-        return val.get(index);
+        return val.get(index) == 1;
     }
 
     /**
@@ -92,7 +92,7 @@ public class BitSet {
         }
         BitSet result = new BitSet(hsize);
         for (int i = 0; i < lsize; i++) {
-            if (val.get(i) && other.val.get(i)) {
+            if ((val.get(i) == 1) && (other.val.get(i) == 1)) {
                 result.add(i);
             }
         }
@@ -111,14 +111,18 @@ public class BitSet {
             BitSet result = new BitSet(val.size());
             result.addAll(0, val);
             for (int i = 0; i < other.val.size(); i++) {
-                if (other.val.get(i)) result.add(i);
+                if (other.val.get(i) == 1) {
+                    result.add(i);
+                }
             }
             return result;
         } else {
             BitSet result = new BitSet(other.val.size());
             result.addAll(0, other.val);
             for (int i = 0; i < val.size(); i++) {
-                if (val.get(i)) result.add(i);
+                if (val.get(i) == 1) {
+                    result.add(i);
+                }
             }
             return result;
         }
@@ -133,7 +137,7 @@ public class BitSet {
     public BitSet complement() {
         BitSet result = new BitSet(val.size());
         for (int i = 0; i < val.size(); i++) {
-            if (val.get(i)) {
+            if (val.get(i) == 1) {
                 result.del(i);
             } else {
                 result.add(i);
@@ -150,16 +154,20 @@ public class BitSet {
      * @return a result
      */
 
-    public BitSet addAll(int index, List<Boolean> array) {
+    public BitSet addAll(int index, List<Integer> array) {
         if (index + array.size() > val.size()) {
             throw new IllegalArgumentException("Invalid size");
         }
         BitSet result = new BitSet(val.size());
         for (int i = 0; i < val.size(); i++) {
-            if (val.get(i)) result.add(i);
+            if (val.get(i) == 1) {
+                result.add(i);
+            }
         }
         for (int j = index; j < array.size() + index; j++) {
-            if (array.get(j - index)) result.add(j);
+            if (array.get(j - index) == 1) {
+                result.add(j);
+            }
         }
         return result;
     }
@@ -172,25 +180,26 @@ public class BitSet {
      * @return a result
      */
 
-    public BitSet delAll(int index, List<Boolean> array) {
+    public BitSet delAll(int index, List<Integer> array) {
         if (index + array.size() > val.size()) {
             throw new IllegalArgumentException("Invalid size");
         }
         BitSet result = new BitSet(val.size());
         for (int i = 0; i < val.size(); i++) {
-            if (val.get(i)) result.add(i);
+            if (val.get(i) == 1) {
+                result.add(i);
+            }
         }
         for (int j = index; j < array.size() + index; j++) {
-            if (array.get(j - index)) result.del(j);
+            if (array.get(j - index) == 1) {
+                result.del(j);
+            }
         }
         return result;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (o instanceof BitSet) {
             BitSet other = (BitSet) o;
             return this.val.equals(other.val);

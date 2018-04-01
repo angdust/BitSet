@@ -28,10 +28,9 @@ hs_err_pid*
 *.iml
 out
 gen
+.gitignore
 .idea/compiler.xml
 .idea/encodings.xml
 .idea/libraries/
-target/
-.gitignore
 .idea/workspace.xml
-src/com/
+target/
