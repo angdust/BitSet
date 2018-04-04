@@ -1,4 +1,4 @@
-package bitset;
+package nikitin.bitset;
 
 
 import java.util.ArrayList;
@@ -207,5 +207,4 @@ public class BitSet {
         BitSet bitSet = (BitSet) o;
         return val != null ? val.equals(bitSet.val) : bitSet.val == null;
     }
-
 }

@@ -1,4 +1,4 @@
-package bitset;
+package nikitin.bitset;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,8 +44,11 @@ class BitSetTest {
     @Test
     void union() {
         BitSet a = new BitSet(0, 1, 0, 0);
-        BitSet b = new BitSet(1, 1, 0, 1);
-        assertEquals(a.union(b), new BitSet(1, 1, 0, 1));
+        BitSet b = new BitSet(1, 1, 0);
+        BitSet c = a.union(b);
+        assertEquals(c, new BitSet(1, 1, 0, 0));
+        BitSet d = b.union(a);
+        assertEquals(d, new BitSet(1, 1, 0, 0));
     }
 
     @Test

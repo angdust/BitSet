@@ -1,0 +1,5 @@
+<root>
+    <item name='java.util.BitSet int wordIndex(int)'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
